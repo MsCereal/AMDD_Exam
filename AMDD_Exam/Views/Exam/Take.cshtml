@@ -59,8 +59,11 @@
                      data-type="@q.Type">
 
                     <div class="mb-3">
-                        <span class="badge mb-2 d-inline-block" style="background:var(--amdd-700);font-size:0.8rem;">Q@(qNum)</span>
-                        <div class="fw-semibold" style="font-size:1rem;line-height:1.6;color:#1a0a2e;">
+                        <span class="badge mb-2 d-inline-block" 
+                              style="background:var(--amdd-700);color:#ffffff;font-size:0.85rem;font-weight:700;padding:4px 10px;">
+                            Q@(qNum)
+                        </span>
+                        <div style="font-size:1rem;line-height:1.7;color:#1a0a2e;font-weight:600;margin-top:4px;">
                             @if (q.Text.Contains('\n'))
                             {
                                 foreach (var line in q.Text.Split('\n'))
