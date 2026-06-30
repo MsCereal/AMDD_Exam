@@ -23,10 +23,6 @@
             <h3 class="mb-0 fw-bold">AMDD Skills Assessment</h3>
             <small style="color:var(--amdd-600);">Applicant: <strong>@applicantName</strong></small>
         </div>
-        <div id="timer-badge" class="px-3 py-2 text-white fw-bold fs-6"
-             style="background:var(--amdd-800);border:1px solid var(--amdd-500);border-radius:8px;font-family:'Consolas',monospace;min-width:110px;text-align:center;">
-            ⏱ <span id="timer">75:00</span>
-        </div>
     </div>
 
     <div class="mb-1 d-flex justify-content-between">
@@ -256,6 +252,19 @@
 </div>
 </div>
 
+<!-- ── Floating Timer Badge (fixed bottom-right) ─────────────── -->
+<div id="timer-badge"
+     style="position:fixed;bottom:28px;right:28px;z-index:9999;
+            background:var(--amdd-800);color:#fff;
+            font-family:'Consolas',monospace;font-size:1.1rem;font-weight:700;
+            padding:12px 20px;border-radius:12px;
+            border:2px solid var(--amdd-500);
+            box-shadow:0 4px 20px rgba(106,31,163,0.45);
+            transition:background 0.4s,border-color 0.4s,box-shadow 0.4s;
+            cursor:default;user-select:none;">
+    ⏱ <span id="timer">30:00</span>
+</div>
+
 @section Scripts {
 <script>
 // ── Anti-cheat: disable copy, right-click, inspect ───────────────
@@ -282,7 +291,7 @@
 </script>
 <script>
 (function () {
-    // ── Timer (75 min) ───────────────────────────────────────────────
+    // ── Timer (30 min) — floating badge ─────────────────────────────
     let totalSecs = 30 * 60;
     const timerEl    = document.getElementById('timer');
     const timerBadge = document.getElementById('timer-badge');
@@ -293,8 +302,20 @@
         const m = Math.floor(totalSecs/60).toString().padStart(2,'0');
         const s = (totalSecs%60).toString().padStart(2,'0');
         timerEl.textContent = m+':'+s;
-        if (totalSecs <= 300)      { timerBadge.style.background='#9b2c68'; }
-        else if (totalSecs <= 600) { timerBadge.style.background='#7c3aaf'; }
+
+        if (totalSecs <= 300) {
+            // Last 5 min — red + pulse
+            timerBadge.style.background = '#9b2c68';
+            timerBadge.style.borderColor = '#ff6b9d';
+            timerBadge.style.boxShadow = '0 0 0 4px rgba(155,44,104,0.3)';
+            timerBadge.style.animation = 'pulse-red 1s infinite';
+        } else if (totalSecs <= 600) {
+            // Last 10 min — yellow warning
+            timerBadge.style.background = '#7c4d00';
+            timerBadge.style.borderColor = '#f5a623';
+            timerBadge.style.boxShadow = '0 4px 20px rgba(245,166,35,0.4)';
+            timerBadge.style.animation = '';
+        }
     }, 1000);
 
     // ── Progress ─────────────────────────────────────────────────────
